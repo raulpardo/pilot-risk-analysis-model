@@ -1,290 +1,290 @@
 <!doctype html>
 <html lang="en">
-	<head>
-		<!-- Required meta tags -->
-		<meta charset="utf-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-		<!-- Google verification -->
-		<meta name="description" content="Prototype web application for Risk Analysis of PILOT policies" />
-		<meta name="keywords" content="Privacy Risk Analysis" />
+		<head>
+				<!-- Required meta tags -->
+				<meta charset="utf-8">
+				<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+				<!-- Google verification -->
+				<meta name="description" content="Prototype web application for Risk Analysis of PILOT policies" />
+				<meta name="keywords" content="Privacy Risk Analysis" />
 
-		<script>
+				<script>
 
-		 function appendTransfer() {
-			 /* var transferNumber = $("#transfers > div").length + 1;*/
-			 $("#nobody").remove()
-			 var transferNumber = Date.now();
-			 var newPolicyHTML = 	"<div class='form-inline' id='transfer"+transferNumber+"'><select class='custom-select form-control-sm col-2 entity-specification' id='transfer"+transferNumber+"Entity' onChange='resetAnalysesResults()'><option selected value='parket'><i>Parket</i></option><option value='parketww'><i>ParketWW</i></option><option value='carinsure'><i>CarInsure</i></option></select><p>  &nbsp; which may use it for &nbsp; </p><select class='custom-select form-control-sm col-2 purpose-specification' id='transfer"+transferNumber+"Purpose' onChange='resetAnalysesResults()'><option selected value='commercial_offers'><i>commercial offers</i></option><option value='profiling'><i>profiling</i></option></select><p>  &nbsp; until  &nbsp; </p><input type='date' class='form-control form-control-sm col-2 retention-specification' id='transfer"+transferNumber+"RetentionTime' aria-describedby='dateHelp' placeholder='Enter date' onChange='resetAnalysesResults()'> &nbsp; <button class='btn btn-danger btn-sm' onclick='removeTransfer("+transferNumber+")'>Remove transfer</button></div></div>";
-			 $("#transfers").append(newPolicyHTML);   // Append new elements
+				 function appendTransfer() {
+						 /* var transferNumber = $("#transfers > div").length + 1;*/
+						 $("#nobody").remove()
+						 var transferNumber = Date.now();
+						 var newPolicyHTML = 	"<div class='form-inline' id='transfer"+transferNumber+"'><select class='custom-select form-control-sm col-2 entity-specification' id='transfer"+transferNumber+"Entity' onChange='resetAnalysesResults()'><option selected value='parket'><i>Parket</i></option><option value='parketww'><i>ParketWW</i></option><option value='carinsure'><i>CarInsure</i></option></select><p>  &nbsp; which may use it for &nbsp; </p><select class='custom-select form-control-sm col-2 purpose-specification' id='transfer"+transferNumber+"Purpose' onChange='resetAnalysesResults()'><option selected value='commercial_offers'><i>commercial offers</i></option><option value='profiling'><i>profiling</i></option></select><p>  &nbsp; until  &nbsp; </p><input type='date' class='form-control form-control-sm col-2 retention-specification' id='transfer"+transferNumber+"RetentionTime' aria-describedby='dateHelp' placeholder='Enter date' onChange='resetAnalysesResults()'> &nbsp; <button class='btn btn-danger btn-sm' onclick='removeTransfer("+transferNumber+")'>Remove transfer</button></div></div>";
+						 $("#transfers").append(newPolicyHTML);   // Append new elements
 
-			 if($("#transfers > div").length > 1) {
-				 document.getElementById("addTransferButton").disabled = true;
-				 $('#buttonAddTransferDiv').append("<small id='buttonLimitTransfers' class='form-text text-muted' disabled='true'>Since there 3 entities all scenarios may be covered with 2 transfers.</small>");
-			 }
-			 resetAnalysesResults();
-		 }
-
-		 function removeTransfer(id) {
-			 $("#transfer" + id).remove();
-			 if ($("#transfers > div").length == 0) {
-				 const nobody = "<p id='nobody'><i>Nobody</i></p>";
-				 $("#transfers").append(nobody);
-			 }
-			 document.getElementById("addTransferButton").disabled = false;
-			 $('#buttonLimitTransfers').remove();
-			 resetAnalysesResults();
-		 }
-
-
-		 function postRequest(question){
-			 var xhr = new XMLHttpRequest();
-			 var url = "http://localhost:3000/analysis";
-			 xhr.open("POST", url, true);
-			 xhr.setRequestHeader("Content-Type", "application/json");
-			 xhr.onreadystatechange = function () {
-				 if (xhr.readyState === 4 && xhr.status === 200) {
-					 // Process response 
-					 // TODO: Complete when server is finished
-					 console.log(xhr);
-					 var response = JSON.parse(xhr.response);
-					 console.log(response);
-					 console.log(question.id);
-					 document.getElementById(response.id).innerHTML = response.result
+						 if($("#transfers > div").length > 1) {
+								 document.getElementById("addTransferButton").disabled = true;
+								 $('#buttonAddTransferDiv').append("<small id='buttonLimitTransfers' class='form-text text-muted' disabled='true'>Since there 3 entities all scenarios may be covered with 2 transfers.</small>");
+						 }
+						 resetAnalysesResults();
 				 }
-			 };
 
-			 // Build JSON with the policy inserted by the user
-			 var policy = {
-				 datatype: $("#collectDatatype :selected").val(),
-				 DCR: {
-					 entity: $("#collectEntity :selected").val(),
-					 purpose: $("#collectPurpose :selected").val(),
-					 retention: document.getElementById("collectRetentionTime").value // Somehow cannot make it work with jquery
-				 },
-				 TR: [], // Empty array for transfers
-				 illegal_transfer_parkeww: document.getElementById("illegalTransferParketWW").checked,
-				 illegal_use_carinsure: document.getElementById("illegalUseCarInsure").checked,
-				 question: question.id
-			 }
-			 var divs = $("#transfers > div");
-			 for(var i = 0; i < divs.length; i++){
-				 var transferId = divs[i].id
-				 var transfer_rule = {
-					 entity: $("#"+transferId+"Entity :selected").val(),
-					 purpose: $("#"+transferId+"Purpose :selected").val(),
-					 retention: document.getElementById(transferId+"RetentionTime").value // Somehow cannot make it work with jquery
-				 };
-				 policy.TR.push(transfer_rule);
-			 }
-			 
-			 console.log(policy); // Print policy in the browser's console (for debugging)													
-			 var data = JSON.stringify(policy); //Stringify JSON 
-			 xhr.send(data); // Send information to server
-		 }
+				 function removeTransfer(id) {
+						 $("#transfer" + id).remove();
+						 if ($("#transfers > div").length == 0) {
+								 const nobody = "<p id='nobody'><i>Nobody</i></p>";
+								 $("#transfers").append(nobody);
+						 }
+						 document.getElementById("addTransferButton").disabled = false;
+						 $('#buttonLimitTransfers').remove();
+						 resetAnalysesResults();
+				 }
 
-		 function resetAnalysesResults() {
-			 default_value = "Not Analysed";
-			 document.getElementById('never_reaches_parket').innerHTML = default_value;
-			 document.getElementById('never_reaches_parketww').innerHTML = default_value;
-			 document.getElementById('never_reaches_carinsure').innerHTML = default_value;
-			 document.getElementById('collection_parket_according_to_policy').innerHTML = default_value;
-			 document.getElementById('transfer_to_parketww_according_to_policy').innerHTML = default_value;
-			 document.getElementById('can_carinsure_use_for_profiling').innerHTML = default_value;
-		 }
 
-		</script>
+				 function postRequest(question){
+						 var xhr = new XMLHttpRequest();
+						 var url = "http://localhost:3000/analysis";
+						 xhr.open("POST", url, true);
+						 xhr.setRequestHeader("Content-Type", "application/json");
+						 xhr.onreadystatechange = function () {
+								 if (xhr.readyState === 4 && xhr.status === 200) {
+										 // Process response 
+										 // TODO: Complete when server is finished
+										 console.log(xhr);
+										 var response = JSON.parse(xhr.response);
+										 console.log(response);
+										 console.log(question.id);
+										 document.getElementById(response.id).innerHTML = response.result
+								 }
+						 };
 
-		<!-- Bootstrap CSS -->
-		<link rel="stylesheet" href="css/bootstrap.min.css" 
-				   integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" 
-				   crossorigin="anonymous">
+						 // Build JSON with the policy inserted by the user
+						 var policy = {
+								 datatype: $("#collectDatatype :selected").val(),
+								 DCR: {
+										 entity: $("#collectEntity :selected").val(),
+										 purpose: $("#collectPurpose :selected").val(),
+										 retention: document.getElementById("collectRetentionTime").value // Somehow cannot make it work with jquery
+								 },
+								 TR: [], // Empty array for transfers
+								 illegal_transfer_parkeww: document.getElementById("illegalTransferParketWW").checked,
+								 illegal_use_carinsure: document.getElementById("illegalUseCarInsure").checked,
+								 question: question.id
+						 }
+						 var divs = $("#transfers > div");
+						 for(var i = 0; i < divs.length; i++){
+								 var transferId = divs[i].id
+								 var transfer_rule = {
+										 entity: $("#"+transferId+"Entity :selected").val(),
+										 purpose: $("#"+transferId+"Purpose :selected").val(),
+										 retention: document.getElementById(transferId+"RetentionTime").value // Somehow cannot make it work with jquery
+								 };
+								 policy.TR.push(transfer_rule);
+						 }
+						 
+						 console.log(policy); // Print policy in the browser's console (for debugging)													
+						 var data = JSON.stringify(policy); //Stringify JSON 
+						 xhr.send(data); // Send information to server
+				 }
 
-		<!-- Custom CSS -->
-		<link rel="stylesheet" href="css/style.css">
+				 function resetAnalysesResults() {
+						 default_value = "Not Analysed";
+						 document.getElementById('never_reaches_parket').innerHTML = default_value;
+						 document.getElementById('never_reaches_parketww').innerHTML = default_value;
+						 document.getElementById('never_reaches_carinsure').innerHTML = default_value;
+						 document.getElementById('collection_parket_according_to_policy').innerHTML = default_value;
+						 document.getElementById('transfer_to_parketww_according_to_policy').innerHTML = default_value;
+						 document.getElementById('can_carinsure_use_for_profiling').innerHTML = default_value;
+				 }
 
-		<!-- Title of the website -->
-		<title>PILOT Risk Analysis</title>
-	</head>
-	<body>
-		
-		<div class="container">												
-			<!-- Title row -->
-			<div class="row" style="padding-top: 1rem"> <!--Added 1rem of padding to match the <hr> -->
-				<div class="col-sm-12">
-					<br>																				
-					<h1>PILOT Risk Analysis</h1>
-				</div>
-			</div>
+				</script>
 
-			<!-- Separator -->
-			<hr>
+				<!-- Bootstrap CSS -->
+				<link rel="stylesheet" href="css/bootstrap.min.css" 
+							integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" 
+							crossorigin="anonymous">
 
-			<!-- Information -->
-			<div class="row">
-				<div class="col-sm">
-					<h4>Information</h4>
-					<p>
-						This page provides a UI to perform risks analyses using
-						the technology presented in the paper XXX.
-					</p>
-				</div>
-			</div>
+				<!-- Custom CSS -->
+				<link rel="stylesheet" href="css/style.css">
 
-			<!-- Separator -->
-			<hr>
-
-			<!-- Course overview -->
-			<div class="row">
-				<div class="col-sm-12">
-					<h4>PILOT Privacy Policy</h4>
-					<p>Enter the PILOT privacy policy you would like to analyse:</p>
-					<div class="form-inline" id="collectionDCR">
-						<select class="custom-select form-control-sm col-2 entity-specification" id="collectEntity" onChange="resetAnalysesResults()">
-							<option selected value="parket"><i>Parket</i></option>
-							<option value="parketww"><i>ParketWW</i></option>
-							<option value="carinsure"><i>CarInsure</i></option>
-						</select>
-						<label>  &nbsp; may collect data of type  &nbsp; </label>
-						<select class="custom-select form-control-sm col-2 datatype-specification" id="collectDatatype" onChange="resetAnalysesResults()">
-							<option selected value="number_plate"><i>number plate</i></option>
-						</select>
-						<label>  &nbsp; and use it for &nbsp; </label>
-						<select class="custom-select form-control-sm col-2 purpose-specification" id="collectPurpose" onChange="resetAnalysesResults()">
-							<option selected value="commercial_offers"><i>commercial offers</i></option>
-							<option value="profiling"><i>profiling</i></option>
-						</select>
-						<label>  &nbsp; until  &nbsp; </label>
-						<input type="date" class="form-control form-control-sm col-2 retention-specification" 
-									 id="collectRetentionTime" aria-describedby="dateHelp" 
-									 placeholder="Enter date" onChange="resetAnalysesResults()">
-					</div>
-				</div>
+				<!-- Title of the website -->
+				<title>PILOT Risk Analysis</title>
+		</head>
+		<body>
 				
-				<div class="col-sm-12" style="margin-top: 5px">
-					<p>This data may be transferred to:</p>
-				</div>
-
-				<div class="col-sm-12" id="transfers">
-					<p id="nobody"><i>Nobody</i></p>
-				</div>
-				<div class="col-sm-12" id="buttonAddTransferDiv" style="padding-top: 10px">
-					<button class="btn btn-primary btn-sm" onclick="appendTransfer()" id="addTransferButton">Add transfer</button>&nbsp;&nbsp;																
-				</div>
-			</div>
-			
-
-			<!-- Separator -->
-			<hr>
-			
-			<div class="row">
-				<div class="col-sm-12">
-					<h4>Risk Analysis</h4>
-					<!-- <p>Based on the policy above now we perform an -->
-					<!-- 				automatic risk analysis as described in the -->
-					<!-- 				accompanying paper.</p> -->
-				</div>
-
-				<div class="col-sm-12">
-					<h5>Risk Assumptions</h5>
-					<p>
-						Choose the assumptions for the model:	
-					</p>
-					<ul style="list-style-type: none; padding-left=0px">
-						<li>
-							<div class="form-check form-check-inline">
-								<input class="form-check-input" type="checkbox" id="illegalTransferParketWW" 
-											  value="risk1" onChange="resetAnalysesResults()">
-								<label class="form-check-label" for="illegalTransferParketWW">
-									<i>ParketWW</i> may transfer
-									personal data to third parties
-									disregarding the associated DS
-									policies.</label>
-							</div>
-						</li>
-						<li>
-							<div class="form-check form-check-inline">
-								<input class="form-check-input" type="checkbox" id="illegalUseCarInsure" 
-											  value="risk2" onChange="resetAnalysesResults()">
-								<label class="form-check-label" for="illegalUseCarInsure">
-									<i>CarInsure</i> has strong
-									interest in using data for <i>profiling</i>.</label>
-							</div>
-						</li>
-					</ul>
-				</div>
-
-				<div class="col-sm-12">
-					<h5>Risk Questions</h5>
-					<p>
-						Click on <i>Verify!</i> to get answers to the
-						questions below. The answer depends on the PILOT
-						policy and the assumptions you have chosen.
-					</p>
-					<!-- <div class="col-sm-12">
-						 <button class="btn btn-primary btn-sm" onclick="postRequest()">Analyse policy</button>
-						 </div> -->
-
-					<ul id="riskAnalysisResults">
-						<li>Can <i>Parket</i> receive my data? 
-							<br>
-							<span class="badge badge-secondary" id="never_reaches_parket">Not analysed</span>
-							<button class="btn btn-success btn-sm" onclick="postRequest(never_reaches_parket)">Verify!</button>
-						</li>
-						<li>Can <i>ParketWW</i> receive my data? 
-							<br>
-							<span class="badge badge-secondary" id="never_reaches_parketww">Not analysed</span>
-							<button class="btn btn-success btn-sm" onclick="postRequest(never_reaches_parketww)">Verify!</button>
-						</li>
-						<li>Can <i>CarInsurance</i> receive my data? 
-							<br>
-							<span class="badge badge-secondary" id="never_reaches_carinsure">Not analysed</span>
-							<button class="btn btn-success btn-sm" onclick="postRequest(never_reaches_carinsure)">Verify!</button>
-						</li>
-						<li>Can <i>Parket</i> use my data for other purpose than that of my PILOT policy? 
-							<br>
-							<span class="badge badge-secondary" id="collection_parket_according_to_policy">Not analysed</span>
-							<button class="btn btn-success btn-sm" onclick="postRequest(collection_parket_according_to_policy)">Verify!</button>
-						</li>
-						<li>Can <i>ParketWW</i> use my data for other purpose than that of my PILOT policy?
-							<br>
-							<span class="badge badge-secondary" id="transfer_to_parketww_according_to_policy">Not analysed</span>
-							<button class="btn btn-success btn-sm" onclick="postRequest(transfer_to_parketww_according_to_policy)">Verify!</button>
-						</li>
-						<li>Can <i>CarInsure</i> use my data for other purpose than profiling?
-							<br>
-							<span class="badge badge-secondary" id="can_carinsure_use_for_profiling">Not analysed</span>
-							<button class="btn btn-success btn-sm" onclick="postRequest(can_carinsure_use_for_profiling)">Verify!</button>
-						</li>
-						<!-- 
-							 <li>Can my data be transferred to <i>ParketWW</i>? 
-							 <span class="badge badge-success">Success</span>
-							 </li>
-							 <li>Can my data be transferred to <i>CarInsurance</i>?
-							 <span class="badge badge-danger" id="never_reaches_carinsure">Fail</span> (<a href="">show trace</a>)
-							 </li> -->
-					</ul>
-				</div>
-				
-
-
-				<div class="col-sm-12">
-					<!-- Footer -->
-					<footer>
-						<br><br><br>
-						<hr>
-						<div class="row bd-footer">
-							<div class="col-lg-12">
-								<p><font size="2">Copyright &copy; Raúl Pardo<font></p>
-							</div>
+				<div class="container">												
+						<!-- Title row -->
+						<div class="row" style="padding-top: 1rem"> <!--Added 1rem of padding to match the <hr> -->
+								<div class="col-sm-12">
+										<br>																				
+										<h1>PILOT Risk Analysis</h1>
+								</div>
 						</div>
-					</footer>
-				</div>
-			</div>
 
-			<!-- Optional JavaScript -->
-			<!-- jQuery first, then Popper.js, then Bootstrap JS -->
-			<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-			<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-			<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-	</body>
+						<!-- Separator -->
+						<hr>
+
+						<!-- Information -->
+						<div class="row">
+								<div class="col-sm">
+										<h4>Information</h4>
+										<p>
+												This page provides a UI to perform risks analyses using
+												the technology presented in the paper XXX.
+										</p>
+								</div>
+						</div>
+
+						<!-- Separator -->
+						<hr>
+
+						<!-- Course overview -->
+						<div class="row">
+								<div class="col-sm-12">
+										<h4>PILOT Privacy Policy</h4>
+										<p>Enter the PILOT privacy policy you would like to analyse:</p>
+										<div class="form-inline" id="collectionDCR">
+												<select class="custom-select form-control-sm col-2 entity-specification" id="collectEntity" onChange="resetAnalysesResults()">
+														<option selected value="parket"><i>Parket</i></option>
+														<option value="parketww"><i>ParketWW</i></option>
+														<option value="carinsure"><i>CarInsure</i></option>
+												</select>
+												<label>  &nbsp; may collect data of type  &nbsp; </label>
+												<select class="custom-select form-control-sm col-2 datatype-specification" id="collectDatatype" onChange="resetAnalysesResults()">
+														<option selected value="number_plate"><i>number plate</i></option>
+												</select>
+												<label>  &nbsp; and use it for &nbsp; </label>
+												<select class="custom-select form-control-sm col-2 purpose-specification" id="collectPurpose" onChange="resetAnalysesResults()">
+														<option selected value="commercial_offers"><i>commercial offers</i></option>
+														<option value="profiling"><i>profiling</i></option>
+												</select>
+												<label>  &nbsp; until  &nbsp; </label>
+												<input type="date" class="form-control form-control-sm col-2 retention-specification" 
+															 id="collectRetentionTime" aria-describedby="dateHelp" 
+															 placeholder="Enter date" onChange="resetAnalysesResults()">
+										</div>
+								</div>
+								
+								<div class="col-sm-12" style="margin-top: 5px">
+										<p>This data may be transferred to:</p>
+								</div>
+
+								<div class="col-sm-12" id="transfers">
+										<p id="nobody"><i>Nobody</i></p>
+								</div>
+								<div class="col-sm-12" id="buttonAddTransferDiv" style="padding-top: 10px">
+										<button class="btn btn-primary btn-sm" onclick="appendTransfer()" id="addTransferButton">Add transfer</button>&nbsp;&nbsp;																
+								</div>
+						</div>
+						
+
+						<!-- Separator -->
+						<hr>
+						
+						<div class="row">
+								<div class="col-sm-12">
+										<h4>Risk Analysis</h4>
+										<!-- <p>Based on the policy above now we perform an -->
+										<!-- 				automatic risk analysis as described in the -->
+										<!-- 				accompanying paper.</p> -->
+								</div>
+
+								<div class="col-sm-12">
+										<h5>Risk Assumptions</h5>
+										<p>
+												Choose the assumptions for the model:	
+										</p>
+										<ul style="list-style-type: none; padding-left=0px">
+												<li>
+														<div class="form-check form-check-inline">
+																<input class="form-check-input" type="checkbox" id="illegalTransferParketWW" 
+																			 value="risk1" onChange="resetAnalysesResults()">
+																<label class="form-check-label" for="illegalTransferParketWW">
+																		<i>ParketWW</i> may transfer
+																		personal data to third parties
+																		disregarding the associated DS
+																		policies.</label>
+														</div>
+												</li>
+												<li>
+														<div class="form-check form-check-inline">
+																<input class="form-check-input" type="checkbox" id="illegalUseCarInsure" 
+																			 value="risk2" onChange="resetAnalysesResults()">
+																<label class="form-check-label" for="illegalUseCarInsure">
+																		<i>CarInsure</i> has strong
+																		interest in using data for <i>profiling</i>.</label>
+														</div>
+												</li>
+										</ul>
+								</div>
+
+								<div class="col-sm-12">
+										<h5>Risk Questions</h5>
+										<p>
+												Click on <i>Verify!</i> to get answers to the
+												questions below. The answer depends on the PILOT
+												policy and the assumptions you have chosen.
+										</p>
+										<!-- <div class="col-sm-12">
+												 <button class="btn btn-primary btn-sm" onclick="postRequest()">Analyse policy</button>
+												 </div> -->
+
+										<ul id="riskAnalysisResults">
+												<li>Can <i>Parket</i> receive my data? 
+														<br>
+														<span class="badge badge-secondary" id="never_reaches_parket">Not analysed</span>
+														<button class="btn btn-success btn-sm" onclick="postRequest(never_reaches_parket)">Verify!</button>
+												</li>
+												<li>Can <i>ParketWW</i> receive my data? 
+														<br>
+														<span class="badge badge-secondary" id="never_reaches_parketww">Not analysed</span>
+														<button class="btn btn-success btn-sm" onclick="postRequest(never_reaches_parketww)">Verify!</button>
+												</li>
+												<li>Can <i>CarInsurance</i> receive my data? 
+														<br>
+														<span class="badge badge-secondary" id="never_reaches_carinsure">Not analysed</span>
+														<button class="btn btn-success btn-sm" onclick="postRequest(never_reaches_carinsure)">Verify!</button>
+												</li>
+												<li>Can <i>Parket</i> use my data for other purpose than that of my PILOT policy? 
+														<br>
+														<span class="badge badge-secondary" id="collection_parket_according_to_policy">Not analysed</span>
+														<button class="btn btn-success btn-sm" onclick="postRequest(collection_parket_according_to_policy)">Verify!</button>
+												</li>
+												<li>Can <i>ParketWW</i> use my data for other purpose than that of my PILOT policy?
+														<br>
+														<span class="badge badge-secondary" id="transfer_to_parketww_according_to_policy">Not analysed</span>
+														<button class="btn btn-success btn-sm" onclick="postRequest(transfer_to_parketww_according_to_policy)">Verify!</button>
+												</li>
+												<li>Can <i>CarInsure</i> use my data for other purpose than profiling?
+														<br>
+														<span class="badge badge-secondary" id="can_carinsure_use_for_profiling">Not analysed</span>
+														<button class="btn btn-success btn-sm" onclick="postRequest(can_carinsure_use_for_profiling)">Verify!</button>
+												</li>
+												<!-- 
+														 <li>Can my data be transferred to <i>ParketWW</i>? 
+														 <span class="badge badge-success">Success</span>
+														 </li>
+														 <li>Can my data be transferred to <i>CarInsurance</i>?
+														 <span class="badge badge-danger" id="never_reaches_carinsure">Fail</span> (<a href="">show trace</a>)
+														 </li> -->
+										</ul>
+								</div>
+								
+
+
+								<div class="col-sm-12">
+										<!-- Footer -->
+										<footer>
+												<br><br><br>
+												<hr>
+												<div class="row bd-footer">
+														<div class="col-lg-12">
+																<p><font size="2">Copyright &copy; Raúl Pardo<font></p>
+														</div>
+												</div>
+										</footer>
+								</div>
+						</div>
+
+						<!-- Optional JavaScript -->
+						<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+						<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+						<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+						<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+		</body>
 </html>
