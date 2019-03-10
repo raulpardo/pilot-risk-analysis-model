@@ -82,10 +82,10 @@ ltl can_carinsure_use_for_profiling {
 //Note: Cannot use subtypes because of unknown compilation issues (see
 																																	 //end of file)
 mtype = {
-	number_plate,              						/* Data types \mathcal{D}                */
-	gd_042_pr,             						    /* number_plate (values) \mathcal{V}     */
-	plate_alice_1,               					/* Item identifiers \mathcal{I}          */
-	alice, parket, parketww, carinsure,     /* Devices \Delta & Entities \mahtcal{E} */
+	number_plate,                         /* Data types \mathcal{D}                */
+	gd_042_pr,                            /* number_plate (values) \mathcal{V}     */
+	plate_alice_1,                        /* Item identifiers \mathcal{I}          */
+	alice, parket, parketww, carinsure,   /* Devices \Delta & Entities \mahtcal{E} */
 	commercial_offers, profiling,         /* Purposes \mathcal{P}                  */
 	advertisement, research, newsletter,  /* Other purposes                        */
 	undefined                             /* Undefined value representing \bot     */
