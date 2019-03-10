@@ -1,33 +1,33 @@
 .table > tbody > tr > td {
-     vertical-align: middle;
+    vertical-align: middle;
 }
 
 .form-inline > * {
-   margin:5px 3px;
+	margin:5px 3px;
 }
 
 #riskAnalysisResults ul {
-				margin: 0 0 0 -0.8125em;
+	margin: 0 0 0 -0.8125em;
     padding-left: 0;
 }
 
 #riskAnalysisResults li {
-				padding-left: 11px;
+	padding-left: 11px;
     margin:0 0 10px 0;
 }
 
 .entity-specification {
-				min-width: 120px;
+	min-width: 120px;
 }
 
 .datatype-specification {
-				min-width: 127px;
+	min-width: 127px;
 }
 
 .purpose-specification {
-				min-width: 160px;
+	min-width: 160px;
 }
 
 .retention-specification {
-				min-width: 127px;
+	min-width: 127px;
 }
