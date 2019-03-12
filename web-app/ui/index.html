@@ -40,6 +40,8 @@
 													var xhr = new XMLHttpRequest();
 													var url = "http://pilot-risk-analysis.inrialpes.fr/analysis";
 													/* var url = "http://localhost:3001/analysis";*/
+													document.getElementById(question.id).classList.remove('badge-secondary');
+													document.getElementById(question.id).innerHTML = "<div class='loader'></div>";
 													xhr.open("POST", url, true);
 													xhr.setRequestHeader("Content-Type", "application/json");
 													xhr.onreadystatechange = function () {
@@ -50,6 +52,7 @@
 																					var response = JSON.parse(xhr.response);
 																					console.log(response);
 																					console.log(question.id);
+																					document.getElementById(question.id).classList.add('badge-secondary');
 																					document.getElementById(response.id).innerHTML = response.result
 																	}
 													};

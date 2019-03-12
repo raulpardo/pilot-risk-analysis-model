@@ -481,10 +481,10 @@ inline policy_generator(p_entity, p_purpose, result_policy) {
 
   /*TRANSFER RULES*/
   /*TRANSFER RULE 1*/
-  result_policy.tr[0].condition = true;
-  result_policy.tr[0].entity = parketww;
-  result_policy.tr[0].dur.purpose = commercial_offers;
-  result_policy.tr[0].dur.retention_time = 42;
+  //result_policy.tr[0].condition = true;
+  //result_policy.tr[0].entity = undefined;
+  //result_policy.tr[0].dur.purpose = undefined;
+  //result_policy.tr[0].dur.retention_time = 42;
   /*TRANSFER RULE 2*/
   //result_policy.tr[1].condition = true;
   //result_policy.tr[1].entity = undefined;
@@ -853,7 +853,7 @@ proctype deviceDC(mtype p_entity) {
 						Policy rand_pol;
 						if
 								:: p_entity == parket -> policy_generator(p_entity,commercial_offers,rand_pol);
-								:: p_entity == parketww        -> policy_generator(p_entity,commercial_offers,rand_pol);
+								:: p_entity == undefined        -> policy_generator(p_entity,undefined,rand_pol);
 								:: p_entity == undefined        -> policy_generator(p_entity,undefined,rand_pol);
 						fi;
 						printf("{request(%e, %e, %e, (%e,<%d,%e,<%e,%d>>,", p_entity,
@@ -910,7 +910,7 @@ proctype deviceDC(mtype p_entity) {
        /******************************************/
        /* Illegal Transfer parketww -> carinsure */
        /******************************************/
-    :: atomic{(p_entity == parketww && enabled_illegal_transfer) ->
+    :: atomic{(p_entity == parket && enabled_illegal_transfer) ->
               byte db_index = 0;
 														mtype target_entity = carinsure;
               if
