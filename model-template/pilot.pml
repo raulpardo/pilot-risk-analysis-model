@@ -52,6 +52,25 @@ ltl collection_carinsure_according_to_policy {
 };
 
 
+/* Can Parket use Alice's data for commercial offers? */
+ltl can_parket_use_for_commercial_offers {
+  [](
+    (received_data[0].device == parket ->	received_data[0].policy.dcr.dur.purpose == commercial_offers) &&
+    (received_data[1].device == parket ->	received_data[1].policy.dcr.dur.purpose == commercial_offers) &&
+    (received_data[2].device == parket ->	received_data[2].policy.dcr.dur.purpose == commercial_offers) 
+  )
+};
+
+/* Can ParketWW use Alice's data for commercial offers? */
+ltl can_parketww_use_for_commercial_offers {
+  [](
+    (received_data[0].device == parketww ->	received_data[0].policy.dcr.dur.purpose == commercial_offers) &&
+    (received_data[1].device == parketww ->	received_data[1].policy.dcr.dur.purpose == commercial_offers) &&
+    (received_data[2].device == parketww ->	received_data[2].policy.dcr.dur.purpose == commercial_offers) 
+  )
+};
+
+
 /* Can Parketww use Alice's data for other purpose than commercial offers? */
 ltl transfer_to_parketww_according_to_policy {
   [](
@@ -67,9 +86,9 @@ ltl transfer_to_parketww_according_to_policy {
 /* Can CarInsure use Alice's data for profiling? */
 ltl can_carinsure_use_for_profiling {
   [](
+    (received_data[0].device == carinsure ->	received_data[0].policy.dcr.dur.purpose != profiling) &&
     (received_data[1].device == carinsure ->	received_data[1].policy.dcr.dur.purpose != profiling) &&
-    (received_data[2].device == carinsure ->	received_data[2].policy.dcr.dur.purpose != profiling) &&
-    (received_data[2].device == carinsure ->	received_data[3].policy.dcr.dur.purpose != profiling) 
+    (received_data[2].device == carinsure ->	received_data[2].policy.dcr.dur.purpose != profiling) 
   )
 };
 
@@ -780,7 +799,7 @@ init {
 
   /* Alice's PILOT Policy */
   Policy p1;
-  policy_generator(parket,commercial_offers,p1);
+  policy_generator(parket,profiling,p1);
   add_policy_to_policy_base(alice,alice,p1);
 
   run deviceAlice();
@@ -817,7 +836,7 @@ proctype deviceDC(mtype p_entity) {
   /*************************/
   /* Risk assumption flags */
   /*************************/
-  bool enabled_illegal_transfer = true;
+  bool enabled_illegal_transfer = false;
   bool enabled_illegal_use = false;
   /**************************************/
   /* Request p_entity -> request_target */
@@ -832,7 +851,7 @@ proctype deviceDC(mtype p_entity) {
   atomic{
     Policy rand_pol;
     if
-      :: p_entity == parket -> policy_generator(p_entity,commercial_offers,rand_pol);
+      :: p_entity == parket -> policy_generator(p_entity,profiling,rand_pol);
       :: p_entity == parketww        -> policy_generator(p_entity,commercial_offers,rand_pol);
       :: p_entity == undefined        -> policy_generator(p_entity,undefined,rand_pol);
     fi;
