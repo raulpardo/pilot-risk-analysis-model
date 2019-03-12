@@ -38,8 +38,8 @@
 
 									function postRequest(question){
 													var xhr = new XMLHttpRequest();
-													/* var url = "http://pilot-risk-analysis.inrialpes.fr/analysis";*/
-													var url = "http://localhost:3001/analysis";
+													var url = "http://pilot-risk-analysis.inrialpes.fr/analysis";
+													/* var url = "http://localhost:3001/analysis";*/
 													xhr.open("POST", url, true);
 													xhr.setRequestHeader("Content-Type", "application/json");
 													xhr.onreadystatechange = function () {
@@ -88,7 +88,7 @@
 									}
 
 									function resetAnalysesResults() {
-													default_value = "Not Analysed";
+													default_value = "Not analysed";
 													document.getElementById('never_reaches_parket').innerHTML = default_value;
 													document.getElementById('never_reaches_parketww').innerHTML = default_value;
 													document.getElementById('never_reaches_carinsure').innerHTML = default_value;
