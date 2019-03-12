@@ -133,6 +133,6 @@ app.post('/analysis', (req, res) => {
 				// res.send({result: 'OK'});
 });
 
-app.listen(3000, function () {
-				console.log('PILOT Risk Analysis app listening on port 3000!');
+app.listen(3001, function () {
+				console.log('PILOT Risk Analysis app listening on port 3001!');
 });
