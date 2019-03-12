@@ -51,9 +51,13 @@ function updatePilotTemplate(policy, model_template_dir, res) {
 																								mapObj['{{tr1}}'] = '//';
 																				}
 																				mapObj['{{illegalTransferParketWW}}'] = `${policy.illegal_transfer_parkeww}`;
+																				mapObj['{{illegalTransferEntitySource}}'] = `${policy.illegal_transfer_entity_source}`;
+																				mapObj['{{illegalTransferEntityTarget}}'] = `${policy.illegal_transfer_entity_target}`;
 																				mapObj['{{illegalUseCarInsure}}'] = `${policy.illegal_use_carinsure}`;
+																				mapObj['{{illegalUseEntity}}'] = `${policy.illegal_use_entity}`;
+																				mapObj['{{illegalUsePurpose}}'] = `${policy.illegal_use_purpose}`;
 																				// Replace according to the above rules
-																				var result = data.replace(/{{collectionEntity}}|{{collectionPurpose}}|{{tr0}}|{{tr0Entity}}|{{tr0Purpose}}|{{tr1}}|{{tr1Entity}}|{{tr1Purpose}}|{{illegalTransferParketWW}}|{{illegalUseCarInsure}}/gi, 
+																				var result = data.replace(/{{collectionEntity}}|{{collectionPurpose}}|{{tr0}}|{{tr0Entity}}|{{tr0Purpose}}|{{tr1}}|{{tr1Entity}}|{{tr1Purpose}}|{{illegalTransferParketWW}}|{{illegalTransferEntitySource}}|{{illegalTransferEntityTarget}}|{{illegalUseCarInsure}}|{{illegalUseEntity}}|{{illegalUsePurpose}}/gi, 
 																																														(matched) => {
 																																																		return mapObj[matched];																																																		
 																																														});

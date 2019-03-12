@@ -38,8 +38,8 @@
 
 									function postRequest(question){
 													var xhr = new XMLHttpRequest();
-													var url = "http://pilot-risk-analysis.inrialpes.fr/analysis";
-													/* var url = "http://localhost:3001/analysis";*/
+													/* var url = "http://pilot-risk-analysis.inrialpes.fr/analysis";*/
+													var url = "http://localhost:3001/analysis";
 													xhr.open("POST", url, true);
 													xhr.setRequestHeader("Content-Type", "application/json");
 													xhr.onreadystatechange = function () {
@@ -64,7 +64,11 @@
 																	},
 																	TR: [], // Empty array for transfers
 																	illegal_transfer_parkeww: document.getElementById("illegalTransferParketWW").checked,
+																	illegal_transfer_entity_source: $("#illegalTransferEntitySource :selected").val(),
+																	illegal_transfer_entity_target: $("#illegalTransferEntityTarget :selected").val(),
 																	illegal_use_carinsure: document.getElementById("illegalUseCarInsure").checked,
+																	illegal_use_entity: $("#illegalUseEntity :selected").val(),
+																	illegal_use_purpose: $("#illegalUsePurpose :selected").val(),
 																	question: question.id
 													}
 													var divs = $("#transfers > div");
@@ -192,31 +196,48 @@
 																				<p>
 																								Choose the assumptions for the model:	
 																				</p>
-																				<ul style="list-style-type: none; padding-left=0px">
-																								<li>
-																												<div class="form-check form-check-inline">
-																																<input class="form-check-input" type="checkbox" id="illegalTransferParketWW" 
-																																							value="risk1" onChange="resetAnalysesResults()">
-																																<label class="form-check-label" for="illegalTransferParketWW">
-																																				<i>ParketWW</i> may transfer
-																																				personal data to third parties
-																																				disregarding the associated DS
-																																				policies.</label>
-																												</div>
-																								</li>
-																								<li>
-																												<div class="form-check form-check-inline">
-																																<input class="form-check-input" type="checkbox" id="illegalUseCarInsure" 
-																																							value="risk2" onChange="resetAnalysesResults()">
-																																<label class="form-check-label" for="illegalUseCarInsure">
-																																				<i>CarInsure</i> has strong
-																																				interest in using data for <i>profiling</i>.</label>
-																												</div>
-																								</li>
-																				</ul>
+																				<div class="form-inline col-sm-12">
+																								<input class="form-inline" type="checkbox" id="illegalTransferParketWW" 
+																																						value="risk1" onChange="resetAnalysesResults()">
+																								<!-- <label class="form-check-label"> -->
+																								<select class="custom-select form-control-sm col-2 entity-specification" 
+																																							id="illegalTransferEntitySource" onChange="resetAnalysesResults()">
+																												<option value="parket"><i>Parket</option>
+																																<option selected value="parketww">ParketWW</option>
+																																<option value="carinsure">CarInsure</option>
+																								</select>
+																								<label >&nbsp; may transfer personal data to &nbsp; </label>
+																								<select class="custom-select form-control-sm col-2 entity-specification" 
+																																							id="illegalTransferEntityTarget" 
+																																							onChange="resetAnalysesResults()">
+																												<option value="parket"><i>Parket</option>
+																																<option value="parketww">ParketWW</option>
+																																<option selected value="carinsure">CarInsure</option>
+																								</select>
+																								<label>&nbsp; disregarding the associated DS policies.</label>
+																				</div>
+																				<!-- </li>
+																									<li> -->
+																				<div class="form-inline col-sm-12">
+																								<input class="form-inline" type="checkbox" id="illegalUseCarInsure" 
+																																						value="risk2" onChange="resetAnalysesResults()">
+																								<!-- <label class="form-check-label" for="illegalUseCarInsure"> -->
+																								<select class="custom-select form-control-sm col-2 entity-specification" 
+																																							id="illegalUseEntity" onChange="resetAnalysesResults()">
+																												<option value="parket"><i>Parket</option>
+																																<option value="parketww">ParketWW</option>
+																																<option selected value="carinsure">CarInsure</option>
+																								</select>
+																								<label>has strong interest in using data for</label>
+																								<select class="custom-select form-control-sm col-2 purpose-specification" 
+																																							id="illegalUsePurpose" onChange="resetAnalysesResults()">
+																												<option value="commercial_offers"><i>commercial offers</option>
+																																<option selected value="profiling">profiling</option>
+																								</select>.
+																				</div>
 																</div>
 
-																<div class="col-sm-12">
+																<div class="col-sm-12" style="padding-top: 10px">
 																				<h5>Risk Questions</h5>
 																				<p>
 																								Click on <i>Verify!</i> to get answers to the

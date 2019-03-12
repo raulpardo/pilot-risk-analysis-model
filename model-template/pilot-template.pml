@@ -848,31 +848,34 @@ proctype deviceDC(mtype p_entity) {
     :: p_entity != parketww  -> request_target = parketww;
     :: p_entity != carinsure -> request_target = carinsure;
   fi;
-  atomic{
-    Policy rand_pol;
-    if
-      :: p_entity == {{collectionEntity}} -> policy_generator(p_entity,{{collectionPurpose}},rand_pol);
-      :: p_entity == {{tr0Entity}}        -> policy_generator(p_entity,{{tr0Purpose}},rand_pol);
-      :: p_entity == {{tr1Entity}}        -> policy_generator(p_entity,{{tr1Purpose}},rand_pol);
-    fi;
-    printf("{request(%e, %e, %e, (%e,<%d,%e,<%e,%d>>,", p_entity,
-           request_target,
-           rand_pol.datatype,
-           rand_pol.datatype,
-           rand_pol.dcr.condition,
-           rand_pol.dcr.entity,
-           rand_pol.dcr.dur.purpose,
-           rand_pol.dcr.dur.retention_time);
-    byte l=0;
-    for(l : 0 .. NUM_TRANSFERS-1) {
-      printf("<%d,%e,<%e,%d>>", rand_pol.tr[l].condition,
-             rand_pol.tr[l].entity,
-             rand_pol.tr[l].dur.purpose,
-             rand_pol.tr[l].dur.retention_time);
-    }
-    printf("))}\n");
-    request(p_entity, request_target, rand_pol.datatype, rand_pol);
-  }
+		if
+				::atomic{
+						Policy rand_pol;
+						if
+								:: p_entity == {{collectionEntity}} -> policy_generator(p_entity,{{collectionPurpose}},rand_pol);
+								:: p_entity == {{tr0Entity}}        -> policy_generator(p_entity,{{tr0Purpose}},rand_pol);
+								:: p_entity == {{tr1Entity}}        -> policy_generator(p_entity,{{tr1Purpose}},rand_pol);
+						fi;
+						printf("{request(%e, %e, %e, (%e,<%d,%e,<%e,%d>>,", p_entity,
+													request_target,
+													rand_pol.datatype,
+													rand_pol.datatype,
+													rand_pol.dcr.condition,
+													rand_pol.dcr.entity,
+													rand_pol.dcr.dur.purpose,
+													rand_pol.dcr.dur.retention_time);
+						byte l=0;
+						for(l : 0 .. NUM_TRANSFERS-1) {
+								printf("<%d,%e,<%e,%d>>", rand_pol.tr[l].condition,
+															rand_pol.tr[l].entity,
+															rand_pol.tr[l].dur.purpose,
+															rand_pol.tr[l].dur.retention_time);
+						}
+						printf("))}\n");
+						request(p_entity, request_target, rand_pol.datatype, rand_pol);
+				}
+				:: skip;
+		fi;
   /*************/		
   /* Transfers */
   /*************/
@@ -907,8 +910,9 @@ proctype deviceDC(mtype p_entity) {
        /******************************************/
        /* Illegal Transfer parketww -> carinsure */
        /******************************************/
-    :: atomic{(p_entity == parketww && enabled_illegal_transfer) ->
+    :: atomic{(p_entity == {{illegalTransferEntitySource}} && enabled_illegal_transfer) ->
               byte db_index = 0;
+														mtype target_entity = {{illegalTransferEntityTarget}};
               if
                 :: database[1].device == p_entity && database[1].item.item_id != 0 -> db_index = 1;
                 :: database[2].device == p_entity && database[2].item.item_id != 0 -> db_index = 2;
@@ -917,20 +921,21 @@ proctype deviceDC(mtype p_entity) {
               fi;
               if
                 :: database_index != 0 ->
-                   printf("{illegal_transfer(%e, %e, %e)}\n", p_entity, carinsure, database[db_index].item.item_id);
-                   illegal_transfer(p_entity,carinsure,database[db_index].item);
+                   printf("{illegal_transfer(%e, %e, %e)}\n", p_entity, target_entity, database[db_index].item.item_id);
+                   illegal_transfer(p_entity,target_entity,database[db_index].item);
                 :: else -> skip;
               fi;}
 							/***********************************/
        /* Illegal use carinsure profiling */
        /***********************************/
-    :: atomic{(p_entity == carinsure && enabled_illegal_use) &&
+    :: atomic{(p_entity == {{illegalUseEntity}} && enabled_illegal_use) &&
               (database[1].device == p_entity && database[1].item.item_id != 0 ||
                database[2].device == p_entity && database[2].item.item_id != 0 ||
                database[3].device == p_entity && database[3].item.item_id != 0) ->
               bool r_result = false;
-              illegal_use(p_entity, plate_alice_1, profiling, r_result);
-              printf("{illegal_use(%e, %e, %e); succeed = %d}\n",p_entity, plate_alice_1, profiling, r_result);
+														mtype illegal_purpose = {{illegalUsePurpose}};
+              illegal_use(p_entity, plate_alice_1, illegal_purpose, r_result);
+              printf("{illegal_use(%e, %e, %e); succeed = %d}\n",p_entity, plate_alice_1, illegal_purpose, r_result);
     }
   fi;
 }
