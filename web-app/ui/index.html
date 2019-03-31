@@ -39,7 +39,7 @@
 	 function postRequest(question){
 	     var xhr = new XMLHttpRequest();
 	     var url = "http://pilot-risk-analysis.inrialpes.fr/analysis";
-	     /* var url = "http://localhost:3001/analysis";*/
+	     /* var url = "http://localhost:3001/analysis"; */
 	     document.getElementById(question.id).classList.remove('badge-secondary');
 	     document.getElementById(question.id).innerHTML = "<div class='loader'></div>";
 	     xhr.open("POST", url, true);
