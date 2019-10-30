@@ -1,0 +1,14 @@
+{
+  "name": "pilot-risk-analysis",
+  "version": "1.0.0",
+  "description": "Web application to perform risk analysis using PILOT privacy policies.",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Raúl Pardo",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.16.4"
+  }
+}

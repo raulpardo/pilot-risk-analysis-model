@@ -1,0 +1,49 @@
+.table > tbody > tr > td {
+	vertical-align: middle;
+}
+
+.form-inline > * {
+	margin:5px 3px;
+}
+
+#riskAnalysisResults ul {
+	margin: 0 0 0 -0.8125em;
+	padding-left: 0;
+}
+
+#riskAnalysisResults li {
+	padding-left: 11px;
+	margin:0 0 10px 0;
+}
+
+.entity-specification {
+	min-width: 120px;
+}
+
+.datatype-specification {
+	min-width: 127px;
+}
+
+.purpose-specification {
+	min-width: 220px;
+}
+
+.retention-specification {
+	min-width: 127px;
+}
+
+
+/* Loader */
+.loader {
+  border: 10px solid #f3f3f3; /* Light grey */
+  border-top: 10px solid #3498db; /* Blue */
+  border-radius: 50%;
+  width: 10px;
+  height: 10px;
+  animation: spin 2s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
