@@ -14,7 +14,7 @@
 	     /* var transferNumber = $("#transfers > div").length + 1;*/
 	     $("#nobody").remove()
 	     var transferNumber = Date.now();
-	     var newPolicyHTML = 	"<div class='form-inline' id='transfer"+transferNumber+"'><select class='custom-select form-control-sm col-2 entity-specification' id='transfer"+transferNumber+"Entity' onChange='resetAnalysesResults()'><option selected value='parket'><i>flights.com</i></option><option value='parketww'><i>hotels.com</i></option><option value='carinsure'><i>sn.com</i></option></select><p>  &nbsp; which may use it for &nbsp; </p><select class='custom-select form-control-sm col-2 purpose-specification' id='transfer"+transferNumber+"Purpose' onChange='resetAnalysesResults()'><option selected value='commercial_offers'><i>special offers</i></option><option value='commercial_offers'><i>hotels advertisement</i></option><option value='profiling'><i>personalized advertisement</i></option></select><p>  &nbsp; until  &nbsp; </p><input type='date' class='form-control form-control-sm col-2 retention-specification' id='transfer"+transferNumber+"RetentionTime' aria-describedby='dateHelp' placeholder='Enter date' onChange='resetAnalysesResults()'> &nbsp; <button class='btn btn-danger btn-sm' onclick='removeTransfer("+transferNumber+")'>Remove transfer</button></div></div>";
+	     var newPolicyHTML = 	"<div class='form-inline' id='transfer"+transferNumber+"'><select class='custom-select form-control-sm col-2 entity-specification' id='transfer"+transferNumber+"Entity' onChange='resetAnalysesResults()'><option selected value='parket'><i>flights.com</i></option><option value='parketww'><i>hotels.com</i></option><option value='carinsure'><i>sn.com</i></option></select><p>  &nbsp; which may use it for &nbsp; </p><select class='custom-select form-control-sm col-2 purpose-specification' id='transfer"+transferNumber+"Purpose' onChange='resetAnalysesResults()'><option selected value='commercial_offers'><i>special offers</i></option><option value='commercial_offers'><i>hotel advertisement</i></option><option value='profiling'><i>personalized advertisement</i></option></select><p>  &nbsp; until  &nbsp; </p><input type='date' class='form-control form-control-sm col-2 retention-specification' id='transfer"+transferNumber+"RetentionTime' aria-describedby='dateHelp' placeholder='Enter date' onChange='resetAnalysesResults()'> &nbsp; <button class='btn btn-danger btn-sm' onclick='removeTransfer("+transferNumber+")'>Remove transfer</button></div></div>";
 	     $("#transfers").append(newPolicyHTML);   // Append new elements
 
 	     if($("#transfers > div").length > 1) {
@@ -167,7 +167,7 @@
 			<label>  &nbsp; and use it for &nbsp; </label>
 			<select class="custom-select form-control-sm col-2 purpose-specification" id="collectPurpose" onChange="resetAnalysesResults()">
 			    <option selected value="commercial_offers"><i>special offers</i></option>
-			    <option selected value="commercial_offers"><i>hotels advertisement</i></option>
+			    <option selected value="commercial_offers"><i>hotel advertisement</i></option>
 			    <option value="profiling"><i>personalized advertisement</i></option>
 			</select>
 			<label>  &nbsp; until  &nbsp; </label>
@@ -279,7 +279,7 @@
 			    <span class="badge badge-secondary" id="can_parket_use_for_commercial_offers">Not analyzed</span>
 			    <button class="btn btn-success btn-sm" onclick="postRequest(can_parket_use_for_commercial_offers)">Verify!</button>
 			</li>
-			<li>Can <i>hotels.com</i> use my data for other purpose than <i>special offers</i>?
+			<li>Can <i>hotels.com</i> use my data for other purpose than <i>hotel advertisement</i>?
 			    <br>
 			    <span class="badge badge-secondary" id="can_parketww_use_for_commercial_offers">Not analyzed</span>
 			    <button class="btn btn-success btn-sm" onclick="postRequest(can_parketww_use_for_commercial_offers)">Verify!</button>

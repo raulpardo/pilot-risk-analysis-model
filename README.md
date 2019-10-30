@@ -8,10 +8,16 @@ In order for non-technical users to benefit from our approach we also
 developed a web application, which provides a user friendly way to
 input privacy policies and execute the model-checker.
 
-An running instance of this we application is available at
-[pilot-risk-anlaysis.inrialpes.fr](http://pilot-risk-analysis.inrialpes.fr).
-
 ## Content
+
+The repository contains the code of two different examples. The
+directory `iot-example/` contains an example on using PILOT in an
+automatic number plate recognision (ANPR) system. The directory
+`cookie-management-example` contains an example depicting how to
+benefit from our analyses in cookie consent banners.
+
+Both examples have the structure. The contain the following two
+directories.
 
 ### model-template
 
