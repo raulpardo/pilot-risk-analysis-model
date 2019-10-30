@@ -13,7 +13,7 @@ input privacy policies and execute the model-checker.
 The repository contains the code of two different examples. The
 directory `iot-example/` contains an example on using PILOT in an
 automatic number plate recognision (ANPR) system. The directory
-`cookie-management-example` contains an example depicting how to
+`cookie-management-example/` contains an example depicting how to
 benefit from our analyses in cookie consent banners.
 
 Both examples have the structure. The contain the following two
